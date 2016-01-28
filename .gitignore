@@ -24,3 +24,9 @@ Wolf/ExportedObj/
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+*.log
+
+*.log
+
+Wolf/Library/assetDatabase3
