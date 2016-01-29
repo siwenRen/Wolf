@@ -17,12 +17,12 @@ public class PlayerController : MonoBehaviour
 
 	void InitEvent ()
 	{
-		Messenger.AddListener<RaycastHit> (GameEventType.ClickSphere, _clickShpere);
+		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, _clickShpere);
 	}
 
 	void RemoveListenerEvent ()
 	{
-		Messenger.RemoveListener<RaycastHit> (GameEventType.ClickSphere, _clickShpere);
+		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, _clickShpere);
 	}
 
 	void _clickShpere (RaycastHit hit)
@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 			effectTarget.transform.position = hit.point;
 			effectTarget.transform.up = hit.normal;
 		}
+//		CameraControl.Me.ShakeCamera ();
+		ClipSound.Me.Play ();
 	}
 
 	[ContextMenu("CheckAnim")]

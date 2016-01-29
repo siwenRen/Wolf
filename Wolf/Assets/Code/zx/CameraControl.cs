@@ -2,16 +2,8 @@
 using System.Collections;
 
 [RequireComponent(typeof(CameraController))]
-public class CameraControl : MonoBehaviour
+public class CameraControl : SingleTonGO<CameraControl>
 {
-	static CameraControl me;
-
-	public static CameraControl Instance {
-		get {
-			return me;
-		}
-	}
-
 	public float judgeDistance = 100;
 	public bool lock_y = false;
 	public bool lock_x = false;
@@ -39,25 +31,11 @@ public class CameraControl : MonoBehaviour
 	
 	void Start ()
 	{
-		me = this;
 		cc = Camera.main.GetComponent<CameraController> ();
 		cc.SetDefault ();
-
-		AddListenerEvent ();
-		RemoveListenerEvent ();
 	}
 
-	void AddListenerEvent ()
-	{
-		Messenger.AddListener<float, float> (GameEventType.CameraShake, _shakeCamera);
-	}
-
-	void RemoveListenerEvent ()
-	{
-		Messenger.RemoveListener<float, float> (GameEventType.CameraShake, _shakeCamera);
-	}
-
-	void _shakeCamera (float strengths = 1.0f, float time = 1.0f)
+	public void ShakeCamera (float strengths = 1.0f, float time = 1.0f)
 	{
 		LeanTween.cancel (gameObject);
 		LeanTween.value (gameObject, (f) => {
@@ -84,7 +62,6 @@ public class CameraControl : MonoBehaviour
 			} else {
 				// attack
 				ClickTrigger (point);
-				_shakeCamera (0.1f, 1);
 				phase = Phase.None;
 			}
 			break;
@@ -114,8 +91,7 @@ public class CameraControl : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayhit;
 		if (Physics.Raycast (ray, out rayhit, 100)) {
-			print (rayhit.collider.gameObject.name);
-			Messenger.Broadcast (GameEventType.ClickSphere, rayhit);
+			Messenger.Broadcast (GameEventType.CameraRayCastHit, rayhit);
 		}
 	}
 }
