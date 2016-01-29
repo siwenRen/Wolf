@@ -518,6 +518,9 @@ ModelImporter:
     101020: Sphere003_frag_493
     101022: Sphere003_frag_494
     101024: Sphere003_frag_495
+    101026: Sphere003
+    101028: Sphere003_frag_247
+    101030: Sphere003_frag_248
     400000: SP01
     400002: SP02
     400004: SP03
@@ -1031,6 +1034,9 @@ ModelImporter:
     401020: Sphere003_frag_493
     401022: Sphere003_frag_494
     401024: Sphere003_frag_495
+    401026: Sphere003
+    401028: Sphere003_frag_247
+    401030: Sphere003_frag_248
     2300000: SP01
     2300002: SP02
     2300004: SP03
@@ -1535,6 +1541,9 @@ ModelImporter:
     2301002: Sphere003_frag_493
     2301004: Sphere003_frag_494
     2301006: Sphere003_frag_495
+    2301008: Sphere003
+    2301010: Sphere003_frag_247
+    2301012: Sphere003_frag_248
     3300000: SP01
     3300002: SP02
     3300004: SP03
@@ -2039,6 +2048,9 @@ ModelImporter:
     3301002: Sphere003_frag_493
     3301004: Sphere003_frag_494
     3301006: Sphere003_frag_495
+    3301008: Sphere003
+    3301010: Sphere003_frag_247
+    3301012: Sphere003_frag_248
     4300000: SP123
     4300002: SP122
     4300004: SP121
@@ -2543,6 +2555,9 @@ ModelImporter:
     4301002: Sphere003_frag_318
     4301004: Sphere003_frag_446
     4301006: Sphere003_frag_326
+    4301008: Sphere003_frag_247
+    4301010: Sphere003
+    4301012: Sphere003_frag_248
     7400000: Take 001
     9500000: //RootNode
   materials:
