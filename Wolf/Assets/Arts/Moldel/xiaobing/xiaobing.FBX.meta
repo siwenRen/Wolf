@@ -19,14 +19,17 @@ ModelImporter:
     2300002: Object001
     2300004: Object002
     2300006: Object003
+    2300008: //RootNode
     3300000: Cylinder001
     3300002: Object001
     3300004: Object002
     3300006: Object003
+    3300008: //RootNode
     4300000: Cylinder001
     4300002: Object001
     4300004: Object002
     4300006: Object003
+    4300008: Plane001
   materials:
     importMaterials: 1
     materialName: 0
