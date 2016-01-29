@@ -14,6 +14,7 @@ public class CameraControl : MonoBehaviour
 
 	public float judgeDistance = 100;
 	public bool lock_y = false;
+	public bool lock_x = false;
 	private CameraController cc;
 
 	enum Phase
@@ -83,6 +84,7 @@ public class CameraControl : MonoBehaviour
 			} else {
 				// attack
 				ClickTrigger (point);
+				_shakeCamera (0.1f, 1);
 				phase = Phase.None;
 			}
 			break;
@@ -94,7 +96,9 @@ public class CameraControl : MonoBehaviour
 					if (!lock_y) {
 						myAngel.x += input.y;
 					}
-					myAngel.y += input.x;
+					if (!lock_x) {
+						myAngel.y += input.x;
+					}
 					cc.RotateTo (myAngel);
 				}
 				lastInput = point;
