@@ -17,4 +17,13 @@ public class ClipSound : SingleTonGO<ClipSound>
 		}
 		ups.Play ();
 	}
+
+	public void Play (string name)
+	{
+		AudioClip ac = Resources.Load ("Sound/" + name) as AudioClip;
+		if (null != ac) {
+			ups.audioClip = ac;
+		}
+		ups.Play ();
+	}
 }
