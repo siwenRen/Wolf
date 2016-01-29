@@ -7,6 +7,7 @@ public class CameraControl : SingleTonGO<CameraControl>
 	public float judgeDistance = 100;
 	public bool lock_y = false;
 	public bool lock_x = false;
+	public bool isTriggerClick = true;
 	private CameraController cc;
 
 	enum Phase
@@ -45,6 +46,14 @@ public class CameraControl : SingleTonGO<CameraControl>
 
 	void Update ()
 	{
+		if (UICamera.isOverUI) {
+			return;
+		}
+
+		if (!isTriggerClick) {
+			return;
+		}
+
 		Vector3 point;
 		switch (phase) {
 		case Phase.None:
@@ -60,8 +69,7 @@ public class CameraControl : SingleTonGO<CameraControl>
 					phase = Phase.Camera;
 				}
 			} else {
-				// attack
-				TriggerAttack (point);
+				CameraRayCastHit (point);
 				phase = Phase.None;
 			}
 			break;
@@ -86,17 +94,14 @@ public class CameraControl : SingleTonGO<CameraControl>
 		}
 	}
 
-	void TriggerAttack (Vector3 screenPos)
+	void CameraRayCastHit (Vector3 screenPos)
 	{
-		if (!UICamera.isOverUI) {
-			Messenger.Broadcast (GameEventType.TriggerAttack);
-			if (SkillData.Me.nowSkill == SkillData.SkillType.Attack) {
-				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-				RaycastHit rayhit;
-				if (Physics.Raycast (ray, out rayhit, 100)) {
-					Messenger.Broadcast (GameEventType.CameraRayCastHit, rayhit);
-				}
-			}
+		Messenger.Broadcast (GameEventType.TriggerAttack);
+
+		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		RaycastHit rayhit;
+		if (Physics.Raycast (ray, out rayhit, 100)) {
+			Messenger.Broadcast (GameEventType.CameraRayCastHit, rayhit);
 		}
 	}
 }

@@ -29,7 +29,7 @@ public class MainUI : MonoBehaviour
 	void _clickSkillButton (GameObject go)
 	{
 		int index = System.Convert.ToInt32 (go.name.Substring ("SkillButton".Length));
-		SkillData.Me.nowSkill = (SkillData.SkillType)(index + 1);
+		Messenger.Broadcast (GameEventType.UseSkill, (SkillType)(index + 1));
 	}
 
 	void _clickSealButton (GameObject go)

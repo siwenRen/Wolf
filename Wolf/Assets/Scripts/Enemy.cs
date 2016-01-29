@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 		Init ();
 	}
 
-	void OnDestory ()
+	void OnDestroy ()
 	{
 		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, Die);
 	}
@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
 		mMove = true;
 	}
 
-	public void Die (RaycastHit hit)
+	void Die (RaycastHit hit)
 	{
 		if (hit.collider.gameObject == gameObject) {
 			DestoryEnemy ();

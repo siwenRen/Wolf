@@ -15,21 +15,37 @@ public class SkillControl : SingleTonGO<SkillControl>
 	
 	void InitEvent ()
 	{
-		Messenger.AddListener (GameEventType.TriggerAttack, triggerSkill);
+		Messenger.AddListener<SkillType> (GameEventType.UseSkill, useSkill);
+		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
 	}
 	
 	void RemoveEvent ()
 	{
-		Messenger.RemoveListener (GameEventType.TriggerAttack, triggerSkill);
+		Messenger.RemoveListener<SkillType> (GameEventType.UseSkill, useSkill);
+		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
 	}
 
-	void triggerSkill ()
+	void useSkill (SkillType type)
 	{
-		if (SkillData.Me.nowSkill != SkillData.SkillType.Attack) {
-			print ("UseSkill" + SkillData.Me.nowSkill);
-			SkillData.Me.nowSkill = SkillData.SkillType.Attack;
+		print ("UseSkill" + type);
+	}
+
+	void triggerSkill (RaycastHit hit)
+	{
+		if (SkillData.Me.nowSkill != SkillType.Attack) {
+			SkillData.Me.nowSkill = SkillType.Attack;
 		} else {
-			print ("-->Attack");
+
 		}
+	}
+
+	void RefreshSkillCDTime ()
+	{
+
+	}
+
+	void Update ()
+	{
+		RefreshSkillCDTime ();
 	}
 }
