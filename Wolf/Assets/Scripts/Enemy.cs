@@ -3,15 +3,16 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
-	private GameObject	mPlanet;
+	public float gravitySpeed; //500
+	public float movementSpeed; //2
+
 	private GameObject	mParent;
-	private GravityMove mGravityMove;
+
+	private bool move;
 
 	// Use this for initialization
 	void Start () {
-	
-		GetObject ();
-		GetComponent ();
+
 		Init ();
 	}
 	
@@ -20,31 +21,27 @@ public class Enemy : MonoBehaviour {
 	
 	}
 
-	private void GetObject()
-	{
-		if (mPlanet == null) {
-			mPlanet = GameObject.Find ("SPlanet");
-		}
+	void FixedUpdate () {
 
-	}
+		if (move) {
+//			transform.position += transform.forward * movementSpeed * Time.deltaTime;
 
-	private void GetComponent()
-	{
-		mGravityMove = this.GetComponent<GravityMove>();
-		if (mGravityMove == null) {
-			mGravityMove = gameObject.AddComponent<GravityMove> ();
+			Vector3 dir =  ZhangYuControl.Me.gameObject.transform.position - transform.position;
+			transform.position += dir.normalized * movementSpeed * Time.deltaTime;
 		}
-		
+		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * gravitySpeed); 
 	}
 
 	private void Init()
 	{
-		Vector3 dir = transform.position - mPlanet.transform.position;
+		Vector3 dir = transform.position - PlanetControl.Me.gameObject.transform.position;
+//		Vector3 dd =  ZhangYuControl.Me.gameObject.transform.position-transform.position ;
+//		transform.forward = dd.normalized;
 		transform.up = dir.normalized;
 
 		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit , Die);
 
-		mGravityMove.StartMove ();
+		move = true;
 	}
 
 	public void Die(RaycastHit hit)
@@ -59,8 +56,7 @@ public class Enemy : MonoBehaviour {
 		float x = Random.Range (-1,1);
 		float y = Random.Range (-1,1);
 		float z = Random.Range (-1,1);
-//		Vector3 targetPos = mPlanet.transform.position + new Vector3 (x,y,z).normalized * 5f;
-		Vector3 targetPos = new Vector3 (x,y,z).normalized * 3.5f;
+		Vector3 targetPos = PlanetControl.Me.gameObject.transform.position + new Vector3 (x,y,z).normalized * 3.5f;
 
 		SetPosition (targetPos);
 	}

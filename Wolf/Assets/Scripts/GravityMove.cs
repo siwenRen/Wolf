@@ -60,37 +60,37 @@ public class GravityMove : MonoBehaviour {
 		}
 
 		//stick
-		distForward = Mathf.Infinity;
-		RaycastHit hitForward;
-		if (Physics.SphereCast(transform.position, 0.25f, -transform.up + transform.forward, out hitForward, 5, RayCastLayerMask))
-		{
-			distForward = hitForward.distance;				
-		}
-		distDown = Mathf.Infinity;
-		RaycastHit hitDown;
-		if (Physics.SphereCast(transform.position, 0.25f, -transform.up, out hitDown, 5, RayCastLayerMask))
-		{
-			distDown = hitDown.distance;				
-		}
-		distBack = Mathf.Infinity;
-		RaycastHit hitBack;
-		if (Physics.SphereCast(transform.position, 0.25f, -transform.up + -transform.forward, out hitBack, 5, RayCastLayerMask))
-		{
-			distBack = hitBack.distance;				
-		}
-		
-		if (distForward < distDown && distForward < distBack)
-		{			
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hitForward.normal), hitForward.normal), Time.deltaTime * rotationSpeed);
-		}
-		else if (distDown < distForward && distDown < distBack)
-		{				
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hitDown.normal), hitDown.normal), Time.deltaTime * rotationSpeed);
-		}
-		else if (distBack < distForward && distBack < distDown)
-		{				
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hitBack.normal), hitBack.normal), Time.deltaTime * rotationSpeed);
-		}				
+//		distForward = Mathf.Infinity;
+//		RaycastHit hitForward;
+//		if (Physics.SphereCast(transform.position, 0.25f, -transform.up + transform.forward, out hitForward, 5, RayCastLayerMask))
+//		{
+//			distForward = hitForward.distance;				
+//		}
+//		distDown = Mathf.Infinity;
+//		RaycastHit hitDown;
+//		if (Physics.SphereCast(transform.position, 0.25f, -transform.up, out hitDown, 5, RayCastLayerMask))
+//		{
+//			distDown = hitDown.distance;				
+//		}
+//		distBack = Mathf.Infinity;
+//		RaycastHit hitBack;
+//		if (Physics.SphereCast(transform.position, 0.25f, -transform.up + -transform.forward, out hitBack, 5, RayCastLayerMask))
+//		{
+//			distBack = hitBack.distance;				
+//		}
+//		
+//		if (distForward < distDown && distForward < distBack)
+//		{			
+//			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hitForward.normal), hitForward.normal), Time.deltaTime * rotationSpeed);
+//		}
+//		else if (distDown < distForward && distDown < distBack)
+//		{				
+//			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hitDown.normal), hitDown.normal), Time.deltaTime * rotationSpeed);
+//		}
+//		else if (distBack < distForward && distBack < distDown)
+//		{				
+//			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hitBack.normal), hitBack.normal), Time.deltaTime * rotationSpeed);
+//		}				
 		
 		//gravity
 		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * gravitySpeed); 
