@@ -33,11 +33,13 @@ public class ZhangYuControl : SingleTonGO<ZhangYuControl>
 		Collider col = collision.collider;
 		if (null != col && null != col.gameObject) {
 			if (LayerMask.LayerToName (col.gameObject.layer) == "WuQi") {
-				int damage = col.gameObject.GetComponent<Enemy> ().attack;
-				ZhangYuData.Me.hp -= damage;
-				ZhangYuData.Me.hp = Mathf.Max (0, ZhangYuData.Me.hp);
-				print ("zhangyu jianxue -- " + ZhangYuData.Me.hp);
-				GameObject.Destroy (col.gameObject);
+				Enemy enemy = col.gameObject.GetComponent<Enemy> ();
+				if (null != enemy) {
+					ZhangYuData.Me.hp -= enemy.attack;
+					ZhangYuData.Me.hp = Mathf.Max (0, ZhangYuData.Me.hp);
+					print ("zhangyu jianxue -- " + ZhangYuData.Me.hp);
+					enemy.DestroyEnemy ();
+				}
 			}
 		}
 	}
