@@ -111,7 +111,6 @@ public class CameraControl : MonoBehaviour
 		RaycastHit rayhit;
 		if (Physics.Raycast (ray, out rayhit, 100)) {
 			print (rayhit.collider.gameObject.name);
-			rayhit.collider.gameObject.SetActive (false);
 			Messenger.Broadcast (GameEventType.ClickSphere, rayhit);
 		}
 	}
