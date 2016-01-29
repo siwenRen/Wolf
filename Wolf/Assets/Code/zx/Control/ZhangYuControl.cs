@@ -34,8 +34,8 @@ public class ZhangYuControl : SingleTonGO<ZhangYuControl>
 		if (null != col && null != col.gameObject) {
 			if (LayerMask.LayerToName (col.gameObject.layer) == "WuQi") {
 				ZhangYuData.Me.hp -= 1;
-
-				GameObject.DestroyImmediate (col.gameObject);
+				print ("zhangyu jianxue -- " + ZhangYuData.Me.hp);
+				GameObject.Destroy (col.gameObject);
 			}
 		}
 	}

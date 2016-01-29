@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ZhangYuData : SingleTonGO<ZhangYuData>
 {
-	public int hp;
-	public int maxHp;
-	public int mp;
-	public int maxMp;
+	public int hp = 150;
+	public int maxHp = 150;
+	public int mp = 150;
+	public int maxMp = 150;
 
 	public float hpPct {
 		get {
