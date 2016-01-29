@@ -34,7 +34,7 @@ public class BanKuaiControl : MonoBehaviour
 		Collider col = arg1.collider;
 		if (null != col && null != col.gameObject) {
 			if (col.gameObject == gameObject || col.transform.IsChildOf (transform)) {
-				ClipSound.Me.Play ();
+				ClipSound.Me.Play ("dici_attack");
 				data.hp -= 1;
 				print ("BanKuai --HP " + gameObject.name + " " + data.hp);
 			}
