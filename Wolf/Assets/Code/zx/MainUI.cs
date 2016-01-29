@@ -40,6 +40,7 @@ public class MainUI : MonoBehaviour
 	void UpdateHpSlider ()
 	{
 		if (null != hpSlider) {
+			print (ZhangYuData.Me.gameObject.name);
 			if (hpSlider.value != ZhangYuData.Me.hpPct) {
 				hpSlider.value = ZhangYuData.Me.hpPct;
 			}
