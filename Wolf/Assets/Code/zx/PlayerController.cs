@@ -7,33 +7,12 @@ public class PlayerController : MonoBehaviour
 
 	void Start ()
 	{
-		InitEvent ();
+
 	}
 
 	void OnDestroy ()
 	{
-		RemoveListenerEvent ();
-	}
 
-	void InitEvent ()
-	{
-		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, _clickShpere);
-	}
-
-	void RemoveListenerEvent ()
-	{
-		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, _clickShpere);
-	}
-
-	void _clickShpere (RaycastHit hit)
-	{
-		print (hit.collider.gameObject.name);
-		if (null != effectTarget) {
-			effectTarget.transform.position = hit.point;
-			effectTarget.transform.up = hit.normal;
-		}
-//		CameraControl.Me.ShakeCamera ();
-		ClipSound.Me.Play ();
 	}
 
 	[ContextMenu("CheckAnim")]
