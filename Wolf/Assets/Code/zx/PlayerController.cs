@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
 	void _clickShpere (RaycastHit hit)
 	{
+		print (hit.collider.gameObject.name);
 		if (null != effectTarget) {
 			effectTarget.transform.position = hit.point;
 			effectTarget.transform.up = hit.normal;
