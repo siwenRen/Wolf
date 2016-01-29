@@ -30,7 +30,9 @@ public class Enemy : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (mMove) {
-			transform.position += transform.forward * movementSpeed * Time.deltaTime;
+//			transform.position += transform.forward * movementSpeed * Time.deltaTime;
+			Vector3 dir = mTarget - transform.position;
+			transform.position += dir.normalized * movementSpeed * Time.deltaTime;
 		}
 		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * mGravitySpeed); 
 	}

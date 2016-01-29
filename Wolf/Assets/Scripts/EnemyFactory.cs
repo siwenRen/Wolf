@@ -34,5 +34,6 @@ public class EnemyFactory : MonoBehaviour {
 
 		enemy.SetParent (this.gameObject);
 		enemy.SetPosition(this.transform.position);
+		enemy.SetTarget (ZhangYuControl.Me.gameObject.transform.position);
 	}
 }
