@@ -32,4 +32,9 @@ public class PlayerController : MonoBehaviour
 			effectTarget.transform.up = hit.normal;
 		}
 	}
+
+	void CheckAnim ()
+	{
+		SimpleAnimatorPlayer simp = Utils.Instance.GetOrAddComponent<SimpleAnimatorPlayer> (effectTarget);
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CameraController))]
 public class CameraControl : MonoBehaviour
 {
 	static CameraControl me;
@@ -11,7 +12,6 @@ public class CameraControl : MonoBehaviour
 		}
 	}
 
-	public GameObject effectTarget;
 	public float judgeDistance = 100;
 	public bool lock_y = false;
 	private CameraController cc;
@@ -110,6 +110,8 @@ public class CameraControl : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayhit;
 		if (Physics.Raycast (ray, out rayhit, 100)) {
+			print (rayhit.collider.gameObject.name);
+			rayhit.collider.gameObject.SetActive (false);
 			Messenger.Broadcast (GameEventType.ClickSphere, rayhit);
 		}
 	}
