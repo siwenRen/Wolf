@@ -43,11 +43,17 @@ public class CameraControl : MonoBehaviour
 		cc.SetDefault ();
 
 		AddListenerEvent ();
+		RemoveListenerEvent ();
 	}
 
 	void AddListenerEvent ()
 	{
 		Messenger.AddListener<float, float> (GameEventType.CameraShake, _shakeCamera);
+	}
+
+	void RemoveListenerEvent ()
+	{
+		Messenger.RemoveListener<float, float> (GameEventType.CameraShake, _shakeCamera);
 	}
 
 	void _shakeCamera (float strengths = 1.0f, float time = 1.0f)

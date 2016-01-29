@@ -12,12 +12,17 @@ public class PlayerController : MonoBehaviour
 
 	void OnDestroy ()
 	{
-
+		RemoveListenerEvent ();
 	}
 
 	void InitEvent ()
 	{
 		Messenger.AddListener<RaycastHit> (GameEventType.ClickSphere, _clickShpere);
+	}
+
+	void RemoveListenerEvent ()
+	{
+		Messenger.RemoveListener<RaycastHit> (GameEventType.ClickSphere, _clickShpere);
 	}
 
 	void _clickShpere (RaycastHit hit)
