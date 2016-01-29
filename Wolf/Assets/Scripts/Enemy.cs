@@ -4,6 +4,7 @@ using System.Collections;
 public class Enemy : MonoBehaviour {
 
 	public float movementSpeed; //2
+	public float attack;
 
 	private GameObject	mPlanet;
 	private GameObject	mParent;
