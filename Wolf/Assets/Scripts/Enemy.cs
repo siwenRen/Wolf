@@ -5,8 +5,10 @@ public class Enemy : MonoBehaviour
 {
 	public float 	movementSpeed; //2
 	public int	attack;
+
 	private float 	mGravitySpeed = 500; //500
 	private GameObject	mParent;
+	private Vector3		mTarget;
 	private bool move;
 
 	// Use this for initialization
@@ -32,7 +34,7 @@ public class Enemy : MonoBehaviour
 		if (move) {
 //			transform.position += transform.forward * movementSpeed * Time.deltaTime;
 
-			Vector3 dir = ZhangYuControl.Me.gameObject.transform.position - transform.position;
+			Vector3 dir = mTarget - transform.position;
 			transform.position += dir.normalized * movementSpeed * Time.deltaTime;
 		}
 		GetComponent<Rigidbody> ().AddForce (-transform.up * Time.deltaTime * mGravitySpeed); 
@@ -52,13 +54,15 @@ public class Enemy : MonoBehaviour
 
 	public void Die (RaycastHit hit)
 	{
-		print (hit);
-		print (hit.collider);
-		print (hit.collider.gameObject);
-		print (gameObject);
 		if (hit.collider.gameObject == gameObject) {
-			Destroy (gameObject);
+			DestroyEnemy();
 		}
+	}
+
+	public void DestroyEnemy()
+	{
+		Destroy (gameObject);
+		ClipSound.Me.Play ("xiaoren_hit");
 	}
 
 	public void RandomPosition ()
@@ -79,5 +83,10 @@ public class Enemy : MonoBehaviour
 	public void SetParent (GameObject obj)
 	{
 		mParent = obj;
+	}
+
+	public void SetTarget(Vector3 pos)
+	{
+		mTarget = pos;
 	}
 }
