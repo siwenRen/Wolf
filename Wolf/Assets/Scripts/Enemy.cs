@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
+	
+	public float 	movementSpeed; //2
+	public float	attack;
 
-	public float gravitySpeed; //500
-	public float movementSpeed; //2
-
+	private float 	mGravitySpeed = 500; //500
 	private GameObject	mParent;
 
 	private bool move;
@@ -29,7 +30,7 @@ public class Enemy : MonoBehaviour {
 			Vector3 dir =  ZhangYuControl.Me.gameObject.transform.position - transform.position;
 			transform.position += dir.normalized * movementSpeed * Time.deltaTime;
 		}
-		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * gravitySpeed); 
+		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * mGravitySpeed); 
 	}
 
 	private void Init()
