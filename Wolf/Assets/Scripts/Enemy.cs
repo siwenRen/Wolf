@@ -3,55 +3,58 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
+	public float movementSpeed; //2
+
 	private GameObject	mPlanet;
 	private GameObject	mParent;
-	private GravityMove mGravityMove;
+	private Vector3		mTarget;
+	private float 		mGravitySpeed = 500; //500
+	private bool		mMove;
 
 	// Use this for initialization
 	void Start () {
 	
-		GetObject ();
-		GetComponent ();
 		Init ();
 	}
-	
+
+	void OnDestory()
+	{
+		Messenger.RemoveListener<RaycastHit>(GameEventType.CameraRayCastHit , Die);
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
 	}
 
-	private void GetObject()
-	{
-		if (mPlanet == null) {
-			mPlanet = GameObject.Find ("SPlanet");
+	void FixedUpdate () {
+		if (mMove) {
+			transform.position += transform.forward * movementSpeed * Time.deltaTime;
 		}
-
-	}
-
-	private void GetComponent()
-	{
-		mGravityMove = this.GetComponent<GravityMove>();
-		if (mGravityMove == null) {
-			mGravityMove = gameObject.AddComponent<GravityMove> ();
-		}
-		
+		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * mGravitySpeed); 
 	}
 
 	private void Init()
 	{
-		Vector3 dir = transform.position - mPlanet.transform.position;
+		Vector3 dir = transform.position -  PlanetControl.Me.gameObject.transform.position;
 		transform.up = dir.normalized;
 
 		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit , Die);
 
-		mGravityMove.StartMove ();
+		mMove = true;
 	}
 
 	public void Die(RaycastHit hit)
 	{
 		if (hit.collider.gameObject == gameObject) {
-			Destroy (gameObject);
+			DestoryEnemy();
 		}
+	}
+
+	public void DestoryEnemy()
+	{
+		Destroy (gameObject);
+		ClipSound.Me.Play ("xiaoren_hit");
 	}
 
 	public void RandomPosition()
@@ -60,7 +63,7 @@ public class Enemy : MonoBehaviour {
 		float y = Random.Range (-1,1);
 		float z = Random.Range (-1,1);
 //		Vector3 targetPos = mPlanet.transform.position + new Vector3 (x,y,z).normalized * 5f;
-		Vector3 targetPos = new Vector3 (x,y,z).normalized * 3.5f;
+		Vector3 targetPos = PlanetControl.Me.gameObject.transform.position + new Vector3 (x,y,z).normalized * 3.5f;
 
 		SetPosition (targetPos);
 	}
@@ -73,5 +76,10 @@ public class Enemy : MonoBehaviour {
 	public void SetParent(GameObject obj)
 	{
 		mParent = obj;
+	}
+
+	public void SetTarget(Vector3 pos)
+	{
+		mTarget = pos;
 	}
 }
