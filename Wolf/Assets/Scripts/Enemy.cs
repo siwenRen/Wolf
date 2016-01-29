@@ -1,73 +1,82 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour {
-	
+public class Enemy : MonoBehaviour
+{
 	public float 	movementSpeed; //2
-	public float	attack;
-
+	public int	attack;
 	private float 	mGravitySpeed = 500; //500
 	private GameObject	mParent;
-
 	private bool move;
 
 	// Use this for initialization
-	void Start () {
-
+	void Start ()
+	{
 		Init ();
+	}
+
+	void OnDestroy ()
+	{
+		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, Die);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 
-	void FixedUpdate () {
+	void FixedUpdate ()
+	{
 
 		if (move) {
 //			transform.position += transform.forward * movementSpeed * Time.deltaTime;
 
-			Vector3 dir =  ZhangYuControl.Me.gameObject.transform.position - transform.position;
+			Vector3 dir = ZhangYuControl.Me.gameObject.transform.position - transform.position;
 			transform.position += dir.normalized * movementSpeed * Time.deltaTime;
 		}
-		GetComponent<Rigidbody>().AddForce(-transform.up * Time.deltaTime * mGravitySpeed); 
+		GetComponent<Rigidbody> ().AddForce (-transform.up * Time.deltaTime * mGravitySpeed); 
 	}
 
-	private void Init()
+	private void Init ()
 	{
 		Vector3 dir = transform.position - PlanetControl.Me.gameObject.transform.position;
 //		Vector3 dd =  ZhangYuControl.Me.gameObject.transform.position-transform.position ;
 //		transform.forward = dd.normalized;
 		transform.up = dir.normalized;
 
-		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit , Die);
+		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, Die);
 
 		move = true;
 	}
 
-	public void Die(RaycastHit hit)
+	public void Die (RaycastHit hit)
 	{
+		print (hit);
+		print (hit.collider);
+		print (hit.collider.gameObject);
+		print (gameObject);
 		if (hit.collider.gameObject == gameObject) {
 			Destroy (gameObject);
 		}
 	}
 
-	public void RandomPosition()
+	public void RandomPosition ()
 	{
-		float x = Random.Range (-1,1);
-		float y = Random.Range (-1,1);
-		float z = Random.Range (-1,1);
-		Vector3 targetPos = PlanetControl.Me.gameObject.transform.position + new Vector3 (x,y,z).normalized * 3.5f;
+		float x = Random.Range (-1, 1);
+		float y = Random.Range (-1, 1);
+		float z = Random.Range (-1, 1);
+		Vector3 targetPos = PlanetControl.Me.gameObject.transform.position + new Vector3 (x, y, z).normalized * 3.5f;
 
 		SetPosition (targetPos);
 	}
 
-	public void SetPosition(Vector3 pos)
+	public void SetPosition (Vector3 pos)
 	{
 		transform.position = pos;
 	}
 
-	public void SetParent(GameObject obj)
+	public void SetParent (GameObject obj)
 	{
 		mParent = obj;
 	}
