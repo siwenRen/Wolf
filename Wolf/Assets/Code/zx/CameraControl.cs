@@ -3,6 +3,14 @@ using System.Collections;
 
 public class CameraControl : MonoBehaviour
 {
+	static CameraControl me;
+
+	public static CameraControl Instance {
+		get {
+			return me;
+		}
+	}
+
 	public GameObject effectTarget;
 	public float judgeDistance = 100;
 	public bool lock_y = false;
@@ -30,8 +38,24 @@ public class CameraControl : MonoBehaviour
 	
 	void Start ()
 	{
+		me = this;
 		cc = Camera.main.GetComponent<CameraController> ();
 		cc.SetDefault ();
+
+		AddListenerEvent ();
+	}
+
+	void AddListenerEvent ()
+	{
+		Messenger.AddListener<float, float> (GameEventType.CameraShake, _shakeCamera);
+	}
+
+	void _shakeCamera (float strengths = 1.0f, float time = 1.0f)
+	{
+		LeanTween.cancel (gameObject);
+		LeanTween.value (gameObject, (f) => {
+			cc.positionOffset = Random.insideUnitSphere * strengths;
+		}, 0, 1, time);
 	}
 
 	void Update ()
@@ -52,7 +76,6 @@ public class CameraControl : MonoBehaviour
 				}
 			} else {
 				// attack
-//				ShakeCamera ();
 				ClickTrigger (point);
 				phase = Phase.None;
 			}
@@ -76,20 +99,12 @@ public class CameraControl : MonoBehaviour
 		}
 	}
 
-	void ShakeCamera ()
-	{
-		cc.positionOffset = Random.insideUnitSphere;
-	}
-
 	void ClickTrigger (Vector3 screenPos)
 	{
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayhit;
 		if (Physics.Raycast (ray, out rayhit, 100)) {
-			if (effectTarget) {
-				effectTarget.transform.position = rayhit.point;
-				effectTarget.transform.up = rayhit.normal;
-			}
+			Messenger.Broadcast (GameEventType.ClickSphere, rayhit);
 		}
 	}
 }
