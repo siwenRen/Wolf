@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ZhangYuControl : MonoBehaviour
+public class ZhangYuControl : SingleTonGO<ZhangYuControl>
 {
 	void Start ()
 	{

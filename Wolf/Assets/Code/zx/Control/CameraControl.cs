@@ -61,7 +61,7 @@ public class CameraControl : SingleTonGO<CameraControl>
 				}
 			} else {
 				// attack
-				ClickTrigger (point);
+				TriggerAttack (point);
 				phase = Phase.None;
 			}
 			break;
@@ -86,12 +86,17 @@ public class CameraControl : SingleTonGO<CameraControl>
 		}
 	}
 
-	void ClickTrigger (Vector3 screenPos)
+	void TriggerAttack (Vector3 screenPos)
 	{
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		RaycastHit rayhit;
-		if (Physics.Raycast (ray, out rayhit, 100)) {
-			Messenger.Broadcast (GameEventType.CameraRayCastHit, rayhit);
+		if (!UICamera.isOverUI) {
+			Messenger.Broadcast (GameEventType.TriggerAttack);
+			if (SkillData.Me.nowSkill == SkillData.SkillType.Attack) {
+				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				RaycastHit rayhit;
+				if (Physics.Raycast (ray, out rayhit, 100)) {
+					Messenger.Broadcast (GameEventType.CameraRayCastHit, rayhit);
+				}
+			}
 		}
 	}
 }

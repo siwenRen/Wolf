@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
 		float y = Random.Range (-1,1);
 		float z = Random.Range (-1,1);
 //		Vector3 targetPos = mPlanet.transform.position + new Vector3 (x,y,z).normalized * 5f;
-		Vector3 targetPos = new Vector3 (x,y,z).normalized * 5.5f;
+		Vector3 targetPos = new Vector3 (x,y,z).normalized * 3.5f;
 
 		SetPosition (targetPos);
 	}
