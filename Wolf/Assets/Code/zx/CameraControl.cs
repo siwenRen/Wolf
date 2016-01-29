@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CameraController))]
 public class CameraControl : MonoBehaviour
 {
 	static CameraControl me;
@@ -11,9 +12,9 @@ public class CameraControl : MonoBehaviour
 		}
 	}
 
-	public GameObject effectTarget;
 	public float judgeDistance = 100;
 	public bool lock_y = false;
+	public bool lock_x = false;
 	private CameraController cc;
 
 	enum Phase
@@ -83,6 +84,7 @@ public class CameraControl : MonoBehaviour
 			} else {
 				// attack
 				ClickTrigger (point);
+				_shakeCamera (0.1f, 1);
 				phase = Phase.None;
 			}
 			break;
@@ -94,7 +96,9 @@ public class CameraControl : MonoBehaviour
 					if (!lock_y) {
 						myAngel.x += input.y;
 					}
-					myAngel.y += input.x;
+					if (!lock_x) {
+						myAngel.y += input.x;
+					}
 					cc.RotateTo (myAngel);
 				}
 				lastInput = point;
@@ -110,6 +114,7 @@ public class CameraControl : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayhit;
 		if (Physics.Raycast (ray, out rayhit, 100)) {
+			print (rayhit.collider.gameObject.name);
 			Messenger.Broadcast (GameEventType.ClickSphere, rayhit);
 		}
 	}

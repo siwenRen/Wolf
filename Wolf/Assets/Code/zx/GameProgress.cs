@@ -18,6 +18,6 @@ public class GameProgress : MonoBehaviour
 
 	void OnDestroy ()
 	{
-		Messenger.Cleanup ();
+//		Messenger.Cleanup ();
 	}
 }

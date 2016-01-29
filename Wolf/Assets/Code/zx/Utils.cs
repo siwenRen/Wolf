@@ -196,4 +196,13 @@ public class Utils
 		}
 		return comp;
 	}
+
+	public T GetOrAddComponent<T> (GameObject obj)where T:MonoBehaviour
+	{
+		T comp = obj.GetComponent<T> ();
+		if (null == comp) {
+			comp = obj.AddComponent<T> ();
+		}
+		return comp;
+	}
 }
