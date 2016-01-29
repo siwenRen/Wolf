@@ -26,9 +26,10 @@ public class SkillControl : SingleTonGO<SkillControl>
 	void triggerSkill ()
 	{
 		if (SkillData.Me.nowSkill != SkillData.SkillType.Attack) {
+			print ("UseSkill" + SkillData.Me.nowSkill);
 			SkillData.Me.nowSkill = SkillData.SkillType.Attack;
 		} else {
-			print (SkillData.Me.nowSkill);
+			print ("-->Attack");
 		}
 	}
 }
