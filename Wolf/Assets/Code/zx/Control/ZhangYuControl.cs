@@ -27,16 +27,15 @@ public class ZhangYuControl : SingleTonGO<ZhangYuControl>
 	{
 
 	}
-
+	 
 	void OnCollisionEnter (Collision collision)
 	{
 		Collider col = collision.collider;
 		if (null != col && null != col.gameObject) {
 			if (LayerMask.LayerToName (col.gameObject.layer) == "WuQi") {
 				Enemy enemy = col.gameObject.GetComponent<Enemy> ();
-				ZhangYuData.Me.hp -= 1;
-
-				GameObject.DestroyImmediate (col.gameObject);
+				ZhangYuData.Me.hp -= enemy.attack;
+				enemy.DestoryEnemy ();
 			}
 		}
 	}
