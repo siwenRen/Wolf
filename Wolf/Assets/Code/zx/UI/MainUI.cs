@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class MainUI : MonoBehaviour
 {
+	public FollowCurse followCurse;
 	private UISlider hpSlider;
 
 	void Start ()
@@ -53,8 +54,9 @@ public class MainUI : MonoBehaviour
 	{
 		SkillData sdata = SkillControl.Me.skillMap [stype];
 		if (sdata.canUse && sdata.triggertype == SkillTriggerType.Drag) {
+			followCurse.open = state;
 			if (state) {
-				
+
 			} else {
 				Messenger.Broadcast (GameEventType.UseSkill, stype);
 			}
