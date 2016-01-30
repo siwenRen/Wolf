@@ -9,4 +9,5 @@ public static class GameEventType
 	public const string CameraRayCastHit = "Game_CameraRayCastHit";
 	public const string NormalAttack = "Game_NormalAttack";
 	public const string UseSkill = "Game_UseSkill";
+	public const string SealBreak = "Game_SealBreak";
 }
