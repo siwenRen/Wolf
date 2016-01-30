@@ -16,7 +16,7 @@ public class MainUI : MonoBehaviour
 
 	void InitButtons ()
 	{
-		for (int i=0; i<4; i++) {
+		for (int i=1; i<5; i++) {
 			GameObject tempButton = Utils.Instance.DeepFind (gameObject, "SkillButton" + i);
 			UIEventListener.Get (tempButton).onClick = _clickSkillButton;
 			UIEventListener.Get (tempButton).onPress = _dragSkillButton;
@@ -31,20 +31,30 @@ public class MainUI : MonoBehaviour
 	{
 		int index = System.Convert.ToInt32 (go.name.Substring ("SkillButton".Length));
 		SkillType stype = (SkillType)(index);
-		SkillData sdata = SkillControl.Me.skillMap [stype];
-		if (sdata.triggertype == SkillTriggerType.Click) {
-			Messenger.Broadcast (GameEventType.UseSkill, stype);
-		}
+		CheckClickSkill (stype, go);
 	}
 
 	void _dragSkillButton (GameObject go, bool state)
 	{
 		int index = System.Convert.ToInt32 (go.name.Substring ("SkillButton".Length));
 		SkillType stype = (SkillType)(index);
+		CheckDragSkill (stype, go, state);
+	}
+	
+	void CheckClickSkill (SkillType stype, GameObject go)
+	{
+		SkillData sdata = SkillControl.Me.skillMap [stype];
+		if (sdata.triggertype == SkillTriggerType.Click) {
+			Messenger.Broadcast (GameEventType.UseSkill, stype);
+		}
+	}
+
+	void CheckDragSkill (SkillType stype, GameObject go, bool state)
+	{
 		SkillData sdata = SkillControl.Me.skillMap [stype];
 		if (sdata.canUse && sdata.triggertype == SkillTriggerType.Drag) {
 			if (state) {
-
+				
 			} else {
 				Messenger.Broadcast (GameEventType.UseSkill, stype);
 			}

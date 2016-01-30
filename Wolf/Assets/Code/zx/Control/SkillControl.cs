@@ -73,6 +73,10 @@ public class SkillControl : SingleTonGO<SkillControl>
 						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 						RaycastHit rayhit;
 						if (Physics.Raycast (ray, out rayhit, 100)) {
+							// test
+							nowSkill = DefaultSkill;
+							normalAttack (rayhit);
+							//
 							print ("Use Drag Skill" + nowSkill.type);
 						}
 					} else if (nowSkill.triggertype == SkillTriggerType.Click) {
