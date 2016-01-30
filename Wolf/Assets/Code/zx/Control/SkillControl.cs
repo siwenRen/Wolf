@@ -10,6 +10,13 @@ public class SkillControl : SingleTonGO<SkillControl>
 	public List<GameObject> skill;
 	public List<GameObject> sealSkill;
 	public SkillData nowSkill;
+	public bool triggerDragSkill = false;
+
+	public SkillData DefaultSkill {
+		get {
+			return skillMap [SkillType.Attack];
+		}
+	}
 
 	void Start ()
 	{
@@ -46,20 +53,13 @@ public class SkillControl : SingleTonGO<SkillControl>
 	void InitEvent ()
 	{
 		Messenger.AddListener<SkillType> (GameEventType.UseSkill, useSkill);
-		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
-
-		UICamera.onPress += uipress;
+		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, normalAttack);
 	}
 
 	void RemoveEvent ()
 	{
 		Messenger.RemoveListener<SkillType> (GameEventType.UseSkill, useSkill);
-		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
-	}
-
-	void uipress (GameObject go, bool press)
-	{
-		print ("ui press" + go.name);
+		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, normalAttack);
 	}
 
 	void useSkill (SkillType type)
@@ -68,26 +68,26 @@ public class SkillControl : SingleTonGO<SkillControl>
 		if (null != data) {
 			if (data.canUse) {
 				nowSkill = data;
-				print ("UseSkill" + type);
+				if (nowSkill.canUse) {
+					if (nowSkill.triggertype == SkillTriggerType.Drag) {
+						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+						RaycastHit rayhit;
+						if (Physics.Raycast (ray, out rayhit, 100)) {
+							print ("Use Drag Skill" + nowSkill.type);
+						}
+					} else if (nowSkill.triggertype == SkillTriggerType.Click) {
+						print ("Use Click Skill" + nowSkill.type);
+					}
+				}
+				nowSkill.SetCD ();
+				nowSkill = DefaultSkill;
 			}
 		}
 	}
 
-	void triggerSkill (RaycastHit hit)
+	void normalAttack (RaycastHit hit)
 	{
-		// normal attack
-		if (nowSkill == skillMap [SkillType.Attack]) {
-			NormalAttack (hit);
-		} else {
-			// skill attack
-			nowSkill = skillMap [SkillType.Attack];
-		}
-	}
-
-	void NormalAttack (RaycastHit hit)
-	{
-		SkillData data = skillMap [SkillType.Attack];
-		if (data.canUse) {
+		if (nowSkill == DefaultSkill && nowSkill.canUse) {
 			if (null != hit.collider) {
 				GameObject attack = Utils.Instance.LoadPfb ("Model/Normalattack");
 				attack.transform.position = hit.point;
@@ -95,7 +95,7 @@ public class SkillControl : SingleTonGO<SkillControl>
 				
 				ClipSound.Me.Play ("dici_attack");
 			}
-			data.SetCD ();
+			nowSkill.SetCD ();
 		}
 	}
 

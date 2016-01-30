@@ -19,6 +19,7 @@ public class MainUI : MonoBehaviour
 		for (int i=0; i<4; i++) {
 			GameObject tempButton = Utils.Instance.DeepFind (gameObject, "SkillButton" + i);
 			UIEventListener.Get (tempButton).onClick = _clickSkillButton;
+			UIEventListener.Get (tempButton).onPress = _dragSkillButton;
 			UIButton button = tempButton.GetComponent<UIButton> ();
 		}
 
@@ -29,7 +30,25 @@ public class MainUI : MonoBehaviour
 	void _clickSkillButton (GameObject go)
 	{
 		int index = System.Convert.ToInt32 (go.name.Substring ("SkillButton".Length));
-		Messenger.Broadcast (GameEventType.UseSkill, (SkillType)(index + 1));
+		SkillType stype = (SkillType)(index);
+		SkillData sdata = SkillControl.Me.skillMap [stype];
+		if (sdata.triggertype == SkillTriggerType.Click) {
+			Messenger.Broadcast (GameEventType.UseSkill, stype);
+		}
+	}
+
+	void _dragSkillButton (GameObject go, bool state)
+	{
+		int index = System.Convert.ToInt32 (go.name.Substring ("SkillButton".Length));
+		SkillType stype = (SkillType)(index);
+		SkillData sdata = SkillControl.Me.skillMap [stype];
+		if (sdata.canUse && sdata.triggertype == SkillTriggerType.Drag) {
+			if (state) {
+
+			} else {
+				Messenger.Broadcast (GameEventType.UseSkill, stype);
+			}
+		}
 	}
 
 	void _clickSealButton (GameObject go)
