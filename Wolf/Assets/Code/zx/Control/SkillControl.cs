@@ -34,6 +34,8 @@ public class SkillControl : SingleTonGO<SkillControl>
 			SkillData sdata = temp.GetComponent<SkillData> ();
 			skillMap.Add (stype, sdata);
 		}
+
+		nowSkill = skillMap [SkillType.Attack];
 	}
 	
 	void OnDestroy ()
