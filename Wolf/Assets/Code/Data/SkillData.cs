@@ -19,10 +19,24 @@ public enum SkillType
 	SealSkill7 = 17,
 }
 
+public enum SkillTriggerType
+{
+	RayCast,
+	Click,
+	Drag,
+}
+
 public class SkillData:MonoBehaviour
 {
 	public SkillType type;
 	public string skillName;
 	public bool unlock = false;
 	public float cdTime;
+	public SkillTriggerType triggertype;
+
+	public bool canUse {
+		get {
+			return unlock && cdTime <= 0;
+		}
+	}
 }

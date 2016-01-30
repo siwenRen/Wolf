@@ -9,6 +9,7 @@ public class SkillControl : SingleTonGO<SkillControl>
 	public GameObject attack;
 	public List<GameObject> skill;
 	public List<GameObject> sealSkill;
+	public SkillData nowSkill;
 
 	void Start ()
 	{
@@ -18,6 +19,9 @@ public class SkillControl : SingleTonGO<SkillControl>
 
 	void InitSkill ()
 	{
+		SkillData attackData = attack.GetComponent<SkillData> ();
+		skillMap.Add (SkillType.Attack, attackData);
+
 		for (int i =1; i<=4; i++) {
 			GameObject temp = Utils.Instance.DeepFind (gameObject, "Skill" + i);
 			SkillType stype = (SkillType)i;
@@ -42,7 +46,7 @@ public class SkillControl : SingleTonGO<SkillControl>
 		Messenger.AddListener<SkillType> (GameEventType.UseSkill, useSkill);
 		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
 	}
-	
+
 	void RemoveEvent ()
 	{
 		Messenger.RemoveListener<SkillType> (GameEventType.UseSkill, useSkill);
@@ -51,17 +55,36 @@ public class SkillControl : SingleTonGO<SkillControl>
 
 	void useSkill (SkillType type)
 	{
-		print ("UseSkill" + type);
+		SkillData data = skillMap [type];
+		if (null != data) {
+			if (data.canUse) {
+				nowSkill = data;
+				print ("UseSkill" + type);
+			}
+		}
 	}
 
 	void triggerSkill (RaycastHit hit)
 	{
-
+		// normal attack
+		if (nowSkill == skillMap [SkillType.Attack]) {
+			
+		} else {
+			// skill attack
+			nowSkill = skillMap [SkillType.Attack];
+		}
 	}
 
 	void RefreshSkillCDTime ()
 	{
-
+		foreach (KeyValuePair<SkillType,SkillData> cell in skillMap) {
+			if (cell.Value.unlock) {
+				if (cell.Value.cdTime > 0) {
+					cell.Value.cdTime -= RealTime.deltaTime;
+					cell.Value.cdTime = Mathf.Min (0, cell.Value.cdTime);
+				}
+			}
+		}
 	}
 
 	void Update ()
