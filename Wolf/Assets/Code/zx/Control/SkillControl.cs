@@ -86,12 +86,16 @@ public class SkillControl : SingleTonGO<SkillControl>
 
 	void NormalAttack (RaycastHit hit)
 	{
-		if (null != hit.collider) {
-			GameObject attack = Utils.Instance.LoadPfb ("Model/Normalattack");
-			attack.transform.position = hit.point;
-			attack.transform.up = hit.point.normalized;
-
-			ClipSound.Me.Play ("dici_attack");
+		SkillData data = skillMap [SkillType.Attack];
+		if (data.canUse) {
+			if (null != hit.collider) {
+				GameObject attack = Utils.Instance.LoadPfb ("Model/Normalattack");
+				attack.transform.position = hit.point;
+				attack.transform.up = hit.point.normalized;
+				
+				ClipSound.Me.Play ("dici_attack");
+			}
+			data.SetCD ();
 		}
 	}
 
@@ -99,9 +103,9 @@ public class SkillControl : SingleTonGO<SkillControl>
 	{
 		foreach (KeyValuePair<SkillType,SkillData> cell in skillMap) {
 			if (cell.Value.unlock) {
-				if (cell.Value.cdTime > 0) {
-					cell.Value.cdTime -= RealTime.deltaTime;
-					cell.Value.cdTime = Mathf.Min (0, cell.Value.cdTime);
+				if (cell.Value.nowcd > 0) {
+					cell.Value.nowcd -= RealTime.deltaTime;
+					cell.Value.nowcd = Mathf.Max (0, cell.Value.nowcd);
 				}
 			}
 		}

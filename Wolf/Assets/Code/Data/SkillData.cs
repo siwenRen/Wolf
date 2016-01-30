@@ -32,11 +32,17 @@ public class SkillData:MonoBehaviour
 	public string skillName;
 	public bool unlock = false;
 	public float cdTime;
+	public float nowcd = 0;
 	public SkillTriggerType triggertype;
 
 	public bool canUse {
 		get {
-			return unlock && cdTime <= 0;
+			return unlock && nowcd <= 0;
 		}
+	}
+
+	public void SetCD ()
+	{
+		nowcd = cdTime;
 	}
 }
