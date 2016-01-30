@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
 	public float movementSpeed; //2
 	public int attack;
+
 	private GameObject	mPlanet;
 	private GameObject	mParent;
 	private Vector3		mTarget;
@@ -52,14 +53,19 @@ public class Enemy : MonoBehaviour
 	void Die (RaycastHit hit)
 	{
 		if (hit.collider.gameObject == gameObject) {
-			DestoryEnemy ();
+			DestroyEnemy ();
 		}
 	}
 
-	public void DestoryEnemy ()
+	public void DestroyEnemy ()
 	{
 		Destroy (gameObject);
 		ClipSound.Me.Play ("xiaoren_hit");
+	}
+
+	public void FlyAway()
+	{
+
 	}
 
 	public void RandomPosition ()
