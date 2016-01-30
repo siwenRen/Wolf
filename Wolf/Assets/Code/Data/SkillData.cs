@@ -3,32 +3,26 @@ using System.Collections;
 
 public enum SkillType
 {
-	Attack,
-	Skill1,
-	Skill2,
-	Skill3,
-	Skill4,
+	Attack = 0,
+	// jishi jineng
+	Skill1 = 1,
+	Skill2 = 2,
+	Skill3 = 3,
+	Skill4 = 4,
+	// fengyin jineng
+	SealSkill1 = 11,
+	SealSkill2 = 12,
+	SealSkill3 = 13,
+	SealSkill4 = 14,
+	SealSkill5 = 15,
+	SealSkill6 = 16,
+	SealSkill7 = 17,
 }
 
-public class SkillData
+public class SkillData:MonoBehaviour
 {
-	public class SkillCellData
-	{
-		public SkillType type;
-		public bool unlock = false;
-		public float cdTime;
-	}
-
-	static SkillData me;
-
-	public static SkillData Me {
-		get {
-			if (null == me) {
-				me = new SkillData ();
-			}
-			return me;
-		}
-	}
-
-	public SkillType nowSkill = SkillType.Attack;
+	public SkillType type;
+	public string skillName;
+	public bool unlock = false;
+	public float cdTime;
 }
