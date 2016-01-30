@@ -35,7 +35,7 @@ public class ZhangYuControl : SingleTonGO<ZhangYuControl>
 			if (LayerMask.LayerToName (col.gameObject.layer) == "WuQi") {
 				Enemy enemy = col.gameObject.GetComponent<Enemy> ();
 				ZhangYuData.Me.hp -= enemy.attack;
-				enemy.DestoryEnemy ();
+				enemy.DestroyEnemy ();
 			}
 		}
 	}
