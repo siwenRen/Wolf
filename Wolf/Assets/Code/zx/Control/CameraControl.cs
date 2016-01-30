@@ -8,6 +8,7 @@ public class CameraControl : SingleTonGO<CameraControl>
 	public bool lock_y = false;
 	public bool lock_x = false;
 	public bool isTriggerClick = true;
+	public bool clickui;
 	private CameraController cc;
 
 	enum Phase
@@ -46,7 +47,12 @@ public class CameraControl : SingleTonGO<CameraControl>
 
 	void Update ()
 	{
-		if (UICamera.isOverUI) {
+		if (Input.GetMouseButtonDown (0)) {
+			clickui = UICamera.isOverUI;
+		} else if (Input.GetMouseButtonUp (0)) {
+			clickui = false;
+		}
+		if (clickui) {
 			return;
 		}
 
@@ -96,8 +102,6 @@ public class CameraControl : SingleTonGO<CameraControl>
 
 	void CameraRayCastHit (Vector3 screenPos)
 	{
-		Messenger.Broadcast (GameEventType.TriggerAttack);
-
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayhit;
 		if (Physics.Raycast (ray, out rayhit, 100)) {

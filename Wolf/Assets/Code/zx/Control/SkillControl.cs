@@ -45,12 +45,19 @@ public class SkillControl : SingleTonGO<SkillControl>
 	{
 		Messenger.AddListener<SkillType> (GameEventType.UseSkill, useSkill);
 		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
+
+		UICamera.onPress += uipress;
 	}
 
 	void RemoveEvent ()
 	{
 		Messenger.RemoveListener<SkillType> (GameEventType.UseSkill, useSkill);
 		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, triggerSkill);
+	}
+
+	void uipress (GameObject go, bool press)
+	{
+		print ("ui press" + go.name);
 	}
 
 	void useSkill (SkillType type)
@@ -68,10 +75,21 @@ public class SkillControl : SingleTonGO<SkillControl>
 	{
 		// normal attack
 		if (nowSkill == skillMap [SkillType.Attack]) {
-			
+			NormalAttack (hit);
 		} else {
 			// skill attack
 			nowSkill = skillMap [SkillType.Attack];
+		}
+	}
+
+	void NormalAttack (RaycastHit hit)
+	{
+		if (null != hit.collider) {
+			GameObject attack = Utils.Instance.LoadPfb ("Model/Normalattack");
+			attack.transform.position = hit.point;
+			attack.transform.up = hit.point.normalized;
+
+			ClipSound.Me.Play ("dici_attack");
 		}
 	}
 

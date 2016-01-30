@@ -205,4 +205,13 @@ public class Utils
 		}
 		return comp;
 	}
+
+	public GameObject LoadPfb (string path)
+	{
+		Object attackObj = Resources.Load (path);
+		if (null != attackObj) {
+			return GameObject.Instantiate (attackObj) as GameObject;
+		}
+		return null;
+	}
 }

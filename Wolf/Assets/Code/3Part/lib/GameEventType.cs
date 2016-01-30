@@ -7,6 +7,6 @@ public static class GameEventType
 	public static string GameStartEvent = "GameStartEvent";
 	//
 	public const string CameraRayCastHit = "Game_CameraRayCastHit";
-	public const string TriggerAttack = "Game_TriggerAttack";
+	public const string NormalAttack = "Game_NormalAttack";
 	public const string UseSkill = "Game_UseSkill";
 }
