@@ -3,6 +3,12 @@ using System.Collections;
 
 public class NormalAttackControl : MonoBehaviour {
 
+	private Collider	mCollider;
+
+	void Start(){
+		mCollider = gameObject.GetComponent<Collider> ();
+	}
+
 	void OnCollisionEnter (Collision collision)
 	{
 		Collider col = collision.collider;
@@ -11,6 +17,13 @@ public class NormalAttackControl : MonoBehaviour {
 				Enemy enemy = col.gameObject.GetComponent<Enemy> ();
 				enemy.FlyAway ();
 			}
+		}
+	}
+
+	public void DisableCollision()
+	{
+		if (mCollider != null) {
+			mCollider.enabled = false;
 		}
 	}
 }
