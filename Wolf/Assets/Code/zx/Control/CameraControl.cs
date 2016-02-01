@@ -9,6 +9,8 @@ public class CameraControl : SingleTonGO<CameraControl>
 	public bool lock_x = false;
 	public bool isTriggerClick = true;
 	public bool clickui;
+	public float autoSpeed;
+	public float speed = 0.5f;
 	private CameraController cc;
 
 	enum Phase
@@ -42,7 +44,9 @@ public class CameraControl : SingleTonGO<CameraControl>
 		LeanTween.cancel (gameObject);
 		LeanTween.value (gameObject, (f) => {
 			cc.positionOffset = Random.insideUnitSphere * strengths;
-		}, 0, 1, time);
+		}, 0, 1, time).setDestroyOnComplete (true).setUseEstimatedTime (true);
+
+		SkyBall.Me.ShakeSkyBall (strengths, time);
 	}
 
 	void Update ()
@@ -85,10 +89,15 @@ public class CameraControl : SingleTonGO<CameraControl>
 					var myAngel = cc.cameraRotationEuler;
 					var input = point - lastInput;
 					if (!lock_y) {
-						myAngel.x += input.y;
+						myAngel.x += input.y * speed;
 					}
 					if (!lock_x) {
-						myAngel.y += input.x;
+						myAngel.y += input.x * speed;
+					}
+					if (input.y < 0) {
+						ZhangYuControl.Me.TurnLeft ();
+					} else {
+						ZhangYuControl.Me.TurnRight ();
 					}
 					cc.RotateTo (myAngel);
 				}
@@ -97,6 +106,17 @@ public class CameraControl : SingleTonGO<CameraControl>
 				phase = Phase.None;
 			}
 			break;
+		}
+
+		if (autoSpeed != 0) {
+			var myAngel = cc.cameraRotationEuler;
+			if (!lock_y) {
+				myAngel.x += autoSpeed;
+			}
+			if (!lock_x) {
+				myAngel.y += autoSpeed;
+			}
+			cc.RotateTo (myAngel);
 		}
 	}
 
@@ -108,4 +128,5 @@ public class CameraControl : SingleTonGO<CameraControl>
 			Messenger.Broadcast (GameEventType.CameraRayCastHit, rayhit);
 		}
 	}
+
 }

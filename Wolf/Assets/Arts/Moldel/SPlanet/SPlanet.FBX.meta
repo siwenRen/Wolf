@@ -521,6 +521,7 @@ ModelImporter:
     101026: Sphere003
     101028: Sphere003_frag_247
     101030: Sphere003_frag_248
+    101032: SPlanet
     400000: SP01
     400002: SP02
     400004: SP03
@@ -1037,6 +1038,7 @@ ModelImporter:
     401026: Sphere003
     401028: Sphere003_frag_247
     401030: Sphere003_frag_248
+    401032: SPlanet
     2300000: SP01
     2300002: SP02
     2300004: SP03

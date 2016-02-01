@@ -52,14 +52,24 @@ public class SkillControl : SingleTonGO<SkillControl>
 	
 	void InitEvent ()
 	{
+		Messenger.AddListener (GameEventType.GameStartEvent, reset);
 		Messenger.AddListener<SkillType> (GameEventType.UseSkill, useSkill);
 		Messenger.AddListener<RaycastHit> (GameEventType.CameraRayCastHit, normalAttack);
 	}
 
 	void RemoveEvent ()
 	{
+		Messenger.AddListener (GameEventType.GameStartEvent, reset);
 		Messenger.RemoveListener<SkillType> (GameEventType.UseSkill, useSkill);
 		Messenger.RemoveListener<RaycastHit> (GameEventType.CameraRayCastHit, normalAttack);
+	}
+
+	void reset ()
+	{
+		foreach (KeyValuePair<SkillType,SkillData> cell in skillMap) {
+			cell.Value.nowcd = 0;
+		}
+		nowSkill = skillMap [SkillType.Attack];
 	}
 
 	void useSkill (SkillType type)
@@ -73,17 +83,18 @@ public class SkillControl : SingleTonGO<SkillControl>
 						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 						RaycastHit rayhit;
 						if (Physics.Raycast (ray, out rayhit, 100)) {
-							// test
-							nowSkill = DefaultSkill;
-							normalAttack (rayhit);
-							//
+							Messenger.Broadcast (GameEventType.TriggerDragSkill, data, rayhit);
+							if ((int)data.type < 10) {
+								nowSkill.SetCD ();
+							}
 							print ("Use Drag Skill" + nowSkill.type);
 						}
 					} else if (nowSkill.triggertype == SkillTriggerType.Click) {
+						Messenger.Broadcast (GameEventType.TriggerClickSkill, data);
+						nowSkill.SetCD ();
 						print ("Use Click Skill" + nowSkill.type);
 					}
 				}
-				nowSkill.SetCD ();
 				nowSkill = DefaultSkill;
 			}
 		}
@@ -91,15 +102,20 @@ public class SkillControl : SingleTonGO<SkillControl>
 
 	void normalAttack (RaycastHit hit)
 	{
-		if (nowSkill == DefaultSkill && nowSkill.canUse) {
-			if (null != hit.collider) {
-				GameObject attack = Utils.Instance.LoadPfb ("Model/Normalattack");
-				attack.transform.position = hit.point;
-				attack.transform.up = hit.point.normalized;
-				
-				ClipSound.Me.Play ("dici_attack");
-			}
-			nowSkill.SetCD ();
+		Collider col = hit.collider;
+		if (null != col && col.gameObject.layer == LayerMask.NameToLayer ("SPlanet")) {
+			if (nowSkill == DefaultSkill && nowSkill.canUse) {
+				if (null != hit.collider) {
+					GameObject attack = Utils.Instance.LoadPfb ("Model/Normalattack");
+					attack.transform.position = hit.point - hit.point.normalized * 0.2f;
+					attack.transform.up = hit.point.normalized;
+					
+					ClipSound.Me.Play ("dici_attack");
+//					CameraControl.Me.ShakeCamera (0.05f, 0.8f);
+					print ("Normal Attack");
+				}
+				nowSkill.SetCD ();
+			} 
 		}
 	}
 

@@ -2,16 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MainUI : MonoBehaviour
+public class MainUI : SingleTonGO<MainUI>
 {
+	public UIPanel panel;
+	public UILabel yearlabel;
+	public UISlider hpslider;
 	public FollowCurse followCurse;
-	private UISlider hpSlider;
+	public GameObject Container_Left;
+	public GameObject Container_Right;
+	private UISprite sealMask;
+	Dictionary<int, UISprite> skillMasks = new Dictionary<int, UISprite> ();
 
 	void Start ()
 	{
-		GameObject sliderObj = Utils.Instance.DeepFind (gameObject, "HpSlider");
-		hpSlider = sliderObj.GetComponent<UISlider> ();
-
 		InitButtons ();
 	}
 
@@ -22,10 +25,15 @@ public class MainUI : MonoBehaviour
 			UIEventListener.Get (tempButton).onClick = _clickSkillButton;
 			UIEventListener.Get (tempButton).onPress = _dragSkillButton;
 			UIButton button = tempButton.GetComponent<UIButton> ();
+
+			GameObject mk = Utils.Instance.DeepFind (tempButton, "Mask");
+			skillMasks.Add (i, mk.GetComponent<UISprite> ());
 		}
 
 		GameObject sealButton = Utils.Instance.DeepFind (gameObject, "SealButton");
-		UIEventListener.Get (sealButton).onClick = _clickSealButton;
+		GameObject obj = Utils.Instance.DeepFind (gameObject, "SealMask");
+		sealMask = obj.GetComponent<UISprite> ();
+		UIEventListener.Get (sealButton).onPress = _dragSealButton;
 	}
 
 	void _clickSkillButton (GameObject go)
@@ -63,22 +71,69 @@ public class MainUI : MonoBehaviour
 		}
 	}
 
-	void _clickSealButton (GameObject go)
+	void _dragSealButton (GameObject go, bool state)
 	{
-		print ("click seal" + go.name);
+		if (SealData.Me.sealPct >= 1) {
+			SkillType stype = SealData.Me.GetSealSkillType ();
+			CheckDragSkill (stype, go, state);
+		}
 	}
 
 	void UpdateHpSlider ()
 	{
-		if (null != hpSlider) {
-			if (hpSlider.value != ZhangYuData.Me.hpPct) {
-				hpSlider.value = ZhangYuData.Me.hpPct;
+		if (null != hpslider) {
+			if (hpslider.value != ZhangYuData.Me.hpPct) {
+				hpslider.value = ZhangYuData.Me.hpPct;
 			}
 		}
+	}
+
+	void UpdateMask ()
+	{
+		if (sealMask && SealData.Me) {
+			sealMask.fillAmount = 1 - SealData.Me.sealPct;
+		}
+		foreach (KeyValuePair<int, UISprite> cell in skillMasks) {
+			SkillData sd = SkillControl.Me.skillMap [(SkillType)cell.Key];
+			cell.Value.fillAmount = sd.nowcd * 1.0f / sd.cdTime;
+		}
+	}
+
+	void UpdateTime ()
+	{
+		yearlabel.text = string.Format ("{0}万年后", (int)PlayerData.Me.year);
 	}
 
 	void Update ()
 	{
 		UpdateHpSlider ();
+		UpdateMask ();
+		UpdateTime ();
+	}
+
+	public void SliderOut (Callback callback)
+	{
+		LeanTween.cancel (Container_Left);
+		LeanTween.moveLocalX (Container_Left, -1000, 0.5f).setOnComplete (() => {
+			if (callback != null) {
+				callback ();
+			}
+		}).setUseEstimatedTime (true);
+		
+		LeanTween.cancel (Container_Right);
+		LeanTween.moveLocalX (Container_Right, 1000, 0.5f).setUseEstimatedTime (true);
+	}
+
+	public void SliderIn (Callback callback)
+	{
+		LeanTween.cancel (Container_Left);
+		LeanTween.moveLocalX (Container_Left, -640, 0.5f).setOnComplete (() => {
+			if (callback != null) {
+				callback ();
+			}
+		}).setUseEstimatedTime (true);
+
+		LeanTween.cancel (Container_Right);
+		LeanTween.moveLocalX (Container_Right, 640, 0.5f).setUseEstimatedTime (true);
 	}
 }

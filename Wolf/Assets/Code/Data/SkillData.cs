@@ -5,10 +5,10 @@ public enum SkillType
 {
 	Attack = 0,
 	// jishi jineng
-	Skill1 = 1,
-	Skill2 = 2,
-	Skill3 = 3,
-	Skill4 = 4,
+	Skill1 = 1,	//area damage
+	Skill2 = 2,	//stop enemy factory
+	Skill3 = 3,	//black hole
+	Skill4 = 4,	//slow down
 	// fengyin jineng
 	SealSkill1 = 11,
 	SealSkill2 = 12,
@@ -30,6 +30,8 @@ public class SkillData:MonoBehaviour
 {
 	public SkillType type;
 	public string skillName;
+	public string skillDesc;
+	public GameObject effect;
 	public bool unlock = false;
 	public float cdTime;
 	public float nowcd = 0;

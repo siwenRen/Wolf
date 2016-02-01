@@ -214,4 +214,27 @@ public class Utils
 		}
 		return null;
 	}
+
+	public Vector3 RandomCreateSpherePoint (Vector3 qiuxin, Vector3 enterPoint, float radius)
+	{
+		Vector3 result = Vector3.zero;
+		
+		//在已出生点为中心 半径为R的立方体里随机产生一点
+		float random_x = Random.Range (-radius, radius);
+		float random_y = Random.Range (-radius, radius);
+		float random_z = Random.Range (-radius, radius);
+		result = enterPoint + new Vector3 (random_x, random_y, random_z);
+		
+		//如果该点超过半径 则随机距离进入已出生点为球心 R为半径的球内
+		if (Vector3.Distance (result, enterPoint) > radius) {
+			float random_distance = Random.Range (radius * 0.5f, radius);
+			result = result - random_distance * (enterPoint - result).normalized;
+		}
+		
+		//如果不在球面上 拉回来
+		float R = Vector3.Distance (enterPoint, qiuxin); 
+		result = (result - qiuxin).normalized * R;
+
+		return result;
+	}
 }

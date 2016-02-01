@@ -15,7 +15,7 @@ public class CameraController:MonoBehaviour
 		public Vector3 rotation = new Vector3 (30f, -135f, 0f);
 		public float fieldOfView = 0f;
 
-		public bool fieldOfViewValid {
+		public bool fieldOfViewValid { 
 			get {
 				return 0 < fieldOfView;
 			}
