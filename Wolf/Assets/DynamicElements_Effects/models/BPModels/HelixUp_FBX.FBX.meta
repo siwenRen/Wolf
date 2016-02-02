@@ -2,7 +2,19 @@ fileFormatVersion: 2
 guid: e395a7ff68ceb6d41a2f9ca0e5cac560
 ModelImporter:
   serializedVersion: 18
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: Dummy01
+    100002: Dummy02
+    100004: Helix01
+    100006: Helix02
+    100008: //RootNode
+    400000: Dummy01
+    400002: Dummy02
+    400004: Helix01
+    400006: Helix02
+    400008: //RootNode
+    7400000: Take 001
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 3

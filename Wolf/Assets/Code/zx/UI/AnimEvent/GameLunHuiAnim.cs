@@ -17,18 +17,25 @@ public class GameLunHuiAnim : SingleTonGO<GameLunHuiAnim>
 		LeanTween.cancel (gameObject);
 		LeanTween.value (gameObject, f => {
 			CameraControl.Me.autoSpeed = f;
-			timeLabel.text = string.Format ("{0}万年后", (int)(75 * f / 10));
+			timeLabel.text = string.Format ("{0}万年后", (int)(50 * f));
 		}, 0.4f, 10, 3.5f).setOnComplete (() => {
 			LeanTween.value (gameObject, f => {
 				CameraControl.Me.autoSpeed = f;
-				timeLabel.text = string.Format ("{0}万年后", (int)(750 + 75 * f / 10));
-			}, 10, 0, 4).setOnComplete (() => {
-				CameraControl.Me.autoSpeed = 0;
+				timeLabel.text = string.Format ("{0}万年后", (int)(500 + 50f * (10-f)));
+			}, 10, 0, 4f).setOnComplete (() => {
+				timeLabel.text = string.Format ("{0}万年后", (int)(1000));
 				
-				if (call != null) {
-					call ();
-				}
-				timeLabel.gameObject.SetActive (false);
+				LeanTween.delayedCall(gameObject,3.0f, ()=>{
+
+					CameraControl.Me.autoSpeed = 0;
+					
+					if (call != null) {
+						call ();
+					}
+					timeLabel.gameObject.SetActive (false);
+
+				}).setUseEstimatedTime (true).setDestroyOnComplete (true);
+
 			}).setUseEstimatedTime (true).setDestroyOnComplete (true);
 		}).setUseEstimatedTime (true).setDestroyOnComplete (true);
 	}

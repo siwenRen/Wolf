@@ -24,7 +24,8 @@ public class PlanetControl : SingleTonGO<PlanetControl>
 
 		for (int i = 0; i < factoryList.Count; ++i) {
 			factoryList[i].RemoveAllEnemy();
-			factoryList[i].gameObject.SetActive(true);
+			factoryList[i].SetActiveChild(true);
+			factoryList[i].Init();
 		}
 
 		factoryCount = 7;

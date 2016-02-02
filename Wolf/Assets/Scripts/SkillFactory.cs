@@ -33,6 +33,12 @@ public class SkillFactory : SingleTonGO<SkillFactory>
 		}
 
 		if (data.type == SkillType.Skill4) {
+			if(obj != null)
+			{
+				obj.transform.parent = Camera.main.transform;
+				obj.transform.localPosition = Vector3.zero;
+				obj.transform.localRotation = Quaternion.Euler(Vector3.zero);
+			}
 			Messenger.Broadcast (GameEventType.SkillSlowDown);
 		}
 	}

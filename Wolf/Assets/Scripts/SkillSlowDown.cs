@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SkillSlowDown : MonoBehaviour {
 
-	public float	duration = 3.0f;
+	public float	duration = 6.0f;
 	public float	speed = 0.8f;
 
 	private float	time;
@@ -20,6 +20,8 @@ public class SkillSlowDown : MonoBehaviour {
 		ClipSound.Me.Play ("jiansu_attack");
 
 		ZhangYuControl.Me.PlayAnimator (ZhangYuControl.Me.skill4);
+
+		CameraControl.Me.ShakeCamera (0.05f, 1.5f);
 	}
 	
 	// Update is called once per frame

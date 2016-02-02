@@ -21,6 +21,7 @@ public class GameStartAnim : SingleTonGO<GameStartAnim>
 		// boss dengchang
 		ZhangYuControl.Me.StartAnimator ();
 
+		GameProgress.Me.Lock ();
 		CameraControl.Me.ShakeCamera (0.02f, 3.5f);
 		ClipSound.Me.Play ("BOSS_CX");
 
@@ -33,6 +34,7 @@ public class GameStartAnim : SingleTonGO<GameStartAnim>
 			CameraControl.Me.ShakeCamera (0.15f, 1);
 
 			MainUI.Me.SliderIn (() => {
+				GameProgress.Me.UnLock ();
 				if (callback != null)
 					callback ();
 			});

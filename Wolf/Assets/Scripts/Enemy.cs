@@ -140,7 +140,7 @@ public class Enemy : MonoBehaviour
 	public void FlyAway ()
 	{
 		moveState = EMOVESTATE.FlyState;
-		ClipSound.Me.Play ("xiaoren_hit");
+//		ClipSound.Me.Play ("xiaoren_hit");
 	}
 
 	public void RandomPosition ()

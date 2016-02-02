@@ -3,10 +3,29 @@ guid: 7d4ecf9d1a03a5f41b87e2f5729d90ce
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
+    100000: //RootNode
+    100002: RingShape
+    100004: shapeCylinder
+    100006: shapeEightPoints
+    100008: sphereShape
+    400000: //RootNode
+    400002: RingShape
+    400004: shapeCylinder
+    400006: shapeEightPoints
+    400008: sphereShape
+    2300000: RingShape
+    2300002: shapeCylinder
+    2300004: shapeEightPoints
+    2300006: sphereShape
+    3300000: RingShape
+    3300002: shapeCylinder
+    3300004: shapeEightPoints
+    3300006: sphereShape
     4300000: RingShape
     4300002: sphereShape
     4300004: shapeCylinder
     4300006: shapeEightPoints
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 3

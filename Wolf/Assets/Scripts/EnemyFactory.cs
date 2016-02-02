@@ -22,9 +22,7 @@ public class EnemyFactory : MonoBehaviour
 
 		prefabName = "xiaobing";
 
-		mTime = 0.0f;
-		mIsCreate = false;
-		mTotalTime = Random.Range (repeatMin, repeatMax);
+		Init ();
 
 		Messenger.AddListener (GameEventType.GamePlay, StartCreate);
 
@@ -36,13 +34,26 @@ public class EnemyFactory : MonoBehaviour
 		Messenger.AddListener (GameEventType.RepairSeal, GetRandom);
 	}
 
+	public void Init()
+	{
+		mTime = 0.0f;
+		mIsCreate = false;
+		repeatMax = 2f;
+		repeatMin = 0.5f;
+		enemyCountMax = 20;
+		mTotalTime = Random.Range (repeatMin, repeatMax);
+	}
+
 	void Update ()
 	{
 
 		if (enemyList.Count > enemyCountMax)
 			return;
 
-		if (mIsCreate) {
+		if (GameProgress.Me.nowstate != GameProgress.GameState.Playing)
+			return;
+
+		if (mIsCreate && gameObject.activeSelf) {
 			mTime += Time.deltaTime;
 			if (mTime > mTotalTime) {
 				mTime = 0.0f;
@@ -131,10 +142,8 @@ public class EnemyFactory : MonoBehaviour
 
 	public void RemoveEnemy (Enemy enemy)
 	{
-		if (enemy.moveState != Enemy.EMOVESTATE.FlyState) {
-			enemy.FlyAway ();
-			enemyList.Remove (enemy);
-		}
+		enemy.FlyAway ();
+		enemyList.Remove (enemy);
 	}
 
 	public void GetRandom()
@@ -143,5 +152,12 @@ public class EnemyFactory : MonoBehaviour
 		repeatMin = 0.5f * PlanetControl.Me.factoryCount / (7f * 1.5f);
 		mTotalTime = Random.Range (repeatMin, repeatMax);
 		enemyCountMax = 20 * 7 / PlanetControl.Me.factoryCount;
+	}
+
+	public void SetActiveChild(bool isActive)
+	{
+		for (int i = 0; i < transform.childCount; ++i) {
+			transform.GetChild(i).gameObject.SetActive(isActive);
+		}
 	}
 }

@@ -101,7 +101,7 @@ public class MainUI : SingleTonGO<MainUI>
 
 	void UpdateTime ()
 	{
-		yearlabel.text = string.Format ("{0}万年后", (int)PlayerData.Me.year);
+//		yearlabel.text = string.Format ("{0}万年后", (int)PlayerData.Me.year);
 	}
 
 	void Update ()

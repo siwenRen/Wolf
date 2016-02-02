@@ -13,6 +13,7 @@ public class Seal : MonoBehaviour {
 	private BanKuaiControl	parentControl;
 	private GameObject		effect;
 	private List<GameObject>	fragObject = new List<GameObject>();
+	private bool	isAnimEnd = false;
 
 
 	// Use this for initialization
@@ -52,34 +53,35 @@ public class Seal : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-			if(factory.enemyList.Count > 0)
-			{
-				timeDie += Time.deltaTime;
-				if(timeDie >= 0.1f)
-				{
-					timeDie = 0.0f;
-					factory.RemoveEnemy(factory.enemyList[0]);
-				}
-
-//				state = ESTATE.PlanetBreak;
-//				return;
+		if (factory.enemyList.Count > 0) {
+			timeDie += Time.deltaTime;
+			if (timeDie >= 0.1f) {
+				timeDie = 0.0f;
+				factory.RemoveEnemy (factory.enemyList [0]);
 			}
+		} else if (isAnimEnd) {
+			Component.Destroy(this);
+		}
 
+		if(!isAnimEnd)
+		{
 			time += Time.deltaTime;
 			
 			if (time > duration) {
-				
-				if(id == 7)
-				{
+
+				isAnimEnd = true;
+
+				if (id == 7) {
 					GameProgress.Me.nowstate = GameProgress.GameState.Win;
 				}
 				
 				--PlanetControl.Me.factoryCount;
-			Debug.Log("~~~~~~~~~~~~~" + PlanetControl.Me.factoryCount);
-				gameObject.SetActive(false);
-				effect.SetActive(true);
-				Component.Destroy(this);
+				
+//				gameObject.SetActive (false);
+				factory.SetActiveChild(false);
+				effect.SetActive (true);
 			}
+		}
 	}
 
 	public void SetParent(BanKuaiControl con)
